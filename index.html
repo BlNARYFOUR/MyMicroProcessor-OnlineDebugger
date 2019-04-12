@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+
+    <link rel="stylesheet" type="text/css" href="assets/css/reset.css" />
+    <link rel="stylesheet" type="text/css" href="assets/css/screen.css" />
+
+    <title>My 4 Bit Processor</title>
+</head>
+<body>
+    <header>
+        <h1>My 4 Bit Processor</h1>
+        <nav>
+            <ul>
+                <li><a href="pages/summary.html" target="_blank">Summary</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <div class="editor">
+            <div class="lineCount">
+                <div>1</div>
+            </div>
+            <div class="editor-ct">
+                <div class="editor-code">
+                    <div>
+                        <span class="comment"># You can go and write your own code</span>
+                    </div>
+                </div>
+                <div class="editor-type" contenteditable="true" spellcheck="false">
+                    # You can go and write your own code
+                </div>
+            </div>
+        </div>
+        <div id="foot">
+            <div id="buttons">
+                <button id="build">Build</button>
+                <button id="stepForwardBtn" disabled="disabled">Step Forward</button>
+                <button id="stepBackBtn" disabled="disabled">Step Back</button>
+                <button id="run" disabled="disabled">Run</button>
+                <input type="number" step="1" id="speed" name="speed" title="speed" placeholder="delay in ms" />
+            </div>
+            <div id="out">
+                <div id="terminal"></div>
+                <div id="codeBuild"></div>
+            </div>
+        </div>
+    </main>
+
+    <script type="text/javascript" src="assets/js/instructions.js"></script>
+    <script type="text/javascript" src="assets/js/preCompilerRegistries.js"></script>
+    <script type="text/javascript" src="assets/js/layout.js"></script>
+    <script type="text/javascript" src="assets/js/ram.js"></script>
+    <script type="text/javascript" src="assets/js/compiler.js"></script>
+    <script type="text/javascript" src="assets/js/debugger.js"></script>
+</body>
+</html>

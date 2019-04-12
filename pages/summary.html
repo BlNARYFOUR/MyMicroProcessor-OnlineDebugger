@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Summary</title>
+</head>
+<body>
+    <header>
+        <h1>Summary</h1>
+    </header>
+    <main>
+        <table>
+            <tr>
+                <th>Code</th>
+                <th>Readable variant</th>
+                <th>Info</th>
+            </tr>
+            <tr>
+                <td></td>
+                <td>DEF [var] [num] || {[AL,AM,AH] [label]}</td>
+                <td>Compiler command for registering variables with a decimal value (1 WORD), or store an address of a label. (3 WORDS)</td>
+            </tr>
+            <tr>
+                <td></td>
+                <td>[label]:</td>
+                <td>Compiler command for registering a string label that can be used in jump statements.</td>
+            </tr>
+            <tr></tr>
+            <tr>
+                <td>0000</td>
+                <td>NOP</td>
+                <td>No operation</td>
+            </tr>
+            <tr></tr>
+            <tr>
+                <td>0001 xxxx xxxx xxxx</td>
+                <td>MOVRW [var]</td>
+                <td>Move from RAM to Work register (WREG)</td>
+            </tr>
+            <tr>
+                <td>0010 xxxx xxxx xxxx</td>
+                <td>MOVWR [var]</td>
+                <td>Move from WREG to RAM</td>
+            </tr>
+            <tr>
+                <td>0011 xxxx</td>
+                <td>MOVWO [var]</td>
+                <td>Move from WREG to one of 16 output ports (OUT01-OUT16)</td>
+            </tr>
+            <tr>
+                <td>0100 xxxx</td>
+                <td>MOVIW [var]</td>
+                <td>Move from one of the 16 input ports (IN01-IN16) to WREG</td>
+            </tr>
+            <tr></tr>
+            <tr>
+                <td>0101 xxxx xxxx xxxx</td>
+                <td>JUMP [label]</td>
+                <td>unconditional jump</td>
+            </tr>
+            <tr>
+                <td>0110 xxxx xxxx xxxx</td>
+                <td>JC [label]</td>
+                <td>jump if carry</td>
+            </tr>
+            <tr>
+                <td>0111 xxxx xxxx xxxx</td>
+                <td>JNC [label]</td>
+                <td>jump if no carry</td>
+            </tr>
+            <tr>
+                <td>1000 xxxx xxxx xxxx</td>
+                <td>JZ [label]</td>
+                <td>jump if zero</td>
+            </tr>
+            <tr>
+                <td>1001 xxxx xxxx xxxx</td>
+                <td>JNZ [label]</td>
+                <td>jump if not zero</td></tr>
+            <tr></tr>
+            <tr>
+                <td>1010 xxxx xxxx xxxx</td>
+                <td>ADD [var]</td>
+                <td>Adds a RAM value to WREG. The carry-out and zero flags are set by the results of the addition.</td>
+            </tr>
+            <tr>
+                <td>1011 xxxx xxxx xxxx</td>
+                <td>SUB [var]</td>
+                <td>Subtract a RAM value to WREG. The carry-out and zero flags are set by the results of the subtraction.</td>
+            </tr>
+            <tr></tr>
+            <tr>
+                <td>1100 xxxx xxxx xxxx</td>
+                <td>NOR [var]</td>
+                <td>Performs a NOR with a value from RAM. The carry-out and zero flags are set by the results of the NOR.</td>
+            </tr>
+            <tr>
+                <td>1101 xxxx xxxx xxxx</td>
+                <td>NOT [var]</td>
+                <td>Performs a NOT with a value from RAM. The carry-out and zero flags are set by the results of the NOT.</td>
+            </tr>
+            <tr>
+                <td>1110 xxxx xxxx xxxx</td>
+                <td>NAND [var]</td>
+                <td>Performs a NAND with a value from RAM. The carry-out and zero flags are set by the results of the NAND.</td>
+            </tr>
+            <tr></tr>
+            <tr>
+                <td>1111</td>
+                <td>RETURN</td>
+                <td>Return to the latest jump in JUMPSTACK</td>
+            </tr>
+        </table>
+        <br>
+        <p>
+            Every non compiler command that takes an ADDRESS as parameter, can use NULL as parameter. If you give NULL as parameter, only the opcode will be compiled
+            <br>
+            example:
+            <br>~ NOR [label] => 1100 xxxx xxxx xxxx [rest of code]
+            <br>~ NOR NULL => 1100 [rest of code]
+        </p>
+    </main>
+</body>
+</html>
