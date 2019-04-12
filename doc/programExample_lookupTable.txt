@@ -1,0 +1,269 @@
+# lookup table example
+
+JUMP main
+
+
+
+### DEFINITIONS ###
+
+# values
+DEF zero 0
+DEF one 1
+DEF two 2
+
+# variables
+DEF counter 0
+DEF tableLength 0
+DEF testInput 1
+DEF notter 15
+
+# function inputs and outputs
+DEF in1 0
+DEF out1 0
+DEF out2 0
+DEF out3 0
+
+### END DEFINITIONS ###
+
+
+
+### MAIN ###
+
+main:
+
+MOVIW in01       # get input
+NAND testInput   # set every bit on 0 except the one to test
+XOR notter       # if the bit is on, this will set the Zero Flag
+
+JNZ main
+
+btnHigh:
+MOVIW in01
+NAND testInput
+XOR notter       # if the bit is off, the Zero Flag will be 0
+JZ btnHigh
+
+# update counter
+MOVRW counter
+ADD one
+MOVWR counter
+
+# get tableLength
+JUMP getTableLength
+MOVRW out1
+MOVWR tableLength
+SUB counter
+JC updateTableParam
+MOVRW zero
+MOVWR counter
+
+updateTableParam:
+# update table param
+MOVRW counter
+MOVWR in1
+JUMP table
+movrw out1
+movwo out01
+movrw out2
+movwo out02
+JUMP main
+
+### END MAIN ###
+
+
+
+### FUNCTIONS ###
+
+table:
+  # reset tAddressOut1 and tAddressOut2 to address of tableReturns
+  movrw tableValuesBeginH
+  movwr tAddressOut1H
+  movwr tAddressOut2H
+  movrw tableValuesBeginM
+  movwr tAddressOut1M
+  movwr tAddressOut2M
+  movrw tableValuesBeginL
+  movwr tAddressOut1L
+  movwr tAddressOut2L
+
+  # Multiple counter * 2 (total WORDS per out statements)
+  movrw in1
+  add in1
+  movwr tableCounter
+
+  # Adjust tAddressOut1
+  ADD tAddressOut1L
+  movwr tAddressOut1L
+  jnc tableSetTAO2
+  movrw tAddressOut1M
+  add one
+  movwr tAddressOut1M
+  jnc tableSetTAO2
+  movrw tAddressOut1H
+  add one
+  movwr tAddressOut1H
+
+  tableSetTAO2:
+
+  # Adjust tAddressOut2
+  MOVRW tableCounter
+  ADD tAddressOut2L
+  add one
+  movwr tAddressOut2L
+  jnc tableSetOutputs
+  movrw tAddressOut2M
+  add one
+  movwr tAddressOut2M
+  jnc tableSetOutputs
+  movrw tAddressOut2H
+  add one
+  movwr tAddressOut2H
+
+  tableSetOutputs:
+
+  movrw null
+  def tAddressOut1H 0
+  def tAddressOut1M 0
+  def tAddressOut1L 0
+  movwr out1
+
+  movrw null
+  def tAddressOut2H 0
+  def tAddressOut2M 0
+  def tAddressOut2L 0
+  movwr out2
+
+  return
+
+  tableValuesBegin:
+  # 7 seg. dis.: -gfe dcba
+  DEF t0pH 3
+  DEF t0pL 15  # 0011 1111
+  DEF t1pH 0
+  DEF t1pL 6   # 0000 0110
+  def t2pH 5
+  def t2pL 11  # 0101 1011
+  def t3pH 4
+  def t3pL 15  # 0100 1111
+  def t4pH 6
+  def t4pL 6   # 0110 0110
+  def t5pH 6
+  def t5pL 13  # 0110 1101
+  def t6pH 7
+  def t6pL 13  # 0111 1101
+  def t7pH 0
+  def t7pL 7   # 0000 0111
+  def t8pH 7
+  def t8pL 15  # 0111 1111
+  def t9pH 6
+  def t9pL 7   # 0110 0111
+  tableValuesEnd:
+  # end
+
+  # multiplier
+  def tableCounter 0
+  def buff 0
+
+  # address of tableValuesBegin
+  DEF tableValuesBeginH AH tableValuesBegin
+  DEF tableValuesBeginM AM tableValuesBegin
+  deF tableValuesBeginL AL tableValuesBegin
+
+  # address of tableValuesEnd
+  def tableValuesEndH AH tableValuesEnd
+  def tableValuesEndM AM tableValuesEnd
+  DEF tableValuesEndL AL tableValuesEnd
+
+
+# since the table is now for a 7 segment display, the length should be 2*9 = 18
+getTableLength:
+  tlh:
+  movrw tableValuesEndH
+  sub tableValuesBeginH
+  movwr tlBuffH
+
+  tlm:
+  movrw tableValuesEndM
+  sub tableValuesBeginM
+  movwr tlBuffM
+  jc tll
+  movrw tlBuffH
+  SUB one
+  movwr tlBuffH
+
+  tll:
+  movrw tableValuesEndL
+  sub tableValuesBeginL
+  movwr tlBuffL
+  jc tlNext
+  movrw tlBuffM
+  sub one
+  movwr tlBuffM
+
+  tlNext:
+  # here you will divide tlBuff by 2, to get the amount of outputs (every output is a combination of 2 WORDS)
+  # clear vars
+  movrw zero
+  movwr tlCountH
+  movwr tlCountM
+  movwr tlCountL
+
+  # start division
+  tlDiv:
+  movrw tlBuffL
+  sub two
+  movwr tlBuffL
+  jc tlDiv01
+  movrw tlBuffM
+  sub one
+  movwr tlBuffM
+  jc tlDiv01
+  movrw tlBuffH
+  sub one
+  movwr tlBuffH
+
+  # Increase tlCount
+  tlDiv01:
+  movrw tlCountL
+  add one
+  movwr tlCountL
+  jnc tlDiv02
+  movrw tlCountM
+  add one
+  movwr tlCountM
+  jnc tlDiv02
+  movrw tlCountH
+  add one
+  movwr tlCountH
+
+  # Test if tlBuff == 0
+  tlDiv02:
+  movrw tlBuffH
+  sub zero
+  jnz tlDiv
+  movrw tlBuffM
+  sub zero
+  jnz tlDiv
+  movrw tlBuffL
+  sub zero
+  jnz tlDiv
+
+  # return with tlCount as output
+  tlEnd:
+  movrw tlCountH
+  movwr out3
+  movrw tlCountM
+  movwr out2
+  movrw tlCountL
+  movwr out1
+  return
+
+  def tlBuffH 0
+  def tlBuffM 0
+  def tlBuffL 0
+
+  def tlCountH 0
+  def tlCountM 0
+  def tlCountL 0
+
+### END FUNCTIONS ###

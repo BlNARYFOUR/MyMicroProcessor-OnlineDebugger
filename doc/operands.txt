@@ -1,0 +1,42 @@
+				DEF 	[var] [num]|{[AL,AM,AH] [label]}	- Compiler command for registering variables.
+				[label]:					- Compiler command for registering a string label that can be used in jump statements.
+
+0000				NOP						- No operation
+
+0001 xxxx xxxx xxxx		MOVRW	[var]					- Move from RAM to Work register (WREG)
+0010 xxxx xxxx xxxx		MOVWR	[var]					- Move from WREG to RAM
+0011 xxxx			MOVWO	[var]					- Move from WREG to one of 16 output ports (OUT01-OUT16)
+0100 xxxx			MOVIW	[var]					- Move from one of the 16 input ports (IN01-IN16) to WREG
+
+0101 xxxx xxxx xxxx		JUMP	[label]					– unconditional jump
+0110 xxxx xxxx xxxx		JC 	[label]					– jump if carry
+0111 xxxx xxxx xxxx		JNC 	[label]					– jump if no carry
+1000 xxxx xxxx xxxx		JZ 	[label]					– jump if zero
+1001 xxxx xxxx xxxx		JNZ 	[label]					– jump if not zero
+
+1010 xxxx xxxx xxxx		ADD	[var]					- Adds a RAM value to WREG. The carry-out and zero flags are set by the results of the addition.
+1011 xxxx xxxx xxxx		SUB	[var]					- Subtract a RAM value to WREG. The carry-out and zero flags are set by the results of the subtraction.
+
+1100 xxxx xxxx xxxx		NOR	[var]					- Performs a NOR with a value from RAM. The carry-out and zero flags are set by the results of the NOR.
+1101 xxxx xxxx xxxx		XOR	[var]					- Performs a NOT with a value from RAM. The carry-out and zero flags are set by the results of the NOT.
+1110 xxxx xxxx xxxx		NAND	[var]					- Performs a NAND with a value from RAM. The carry-out and zero flags are set by the results of the NAND.
+
+1111				HALT						- Stops any further execution of code.
+
+Every non compiler command that takes an ADDRESS as parameter, can use NULL as parameter. If you give NULL as parameter, only the opcode will be compiled 
+example: 
+~ NOR [label] => 1100 xxxx xxxx xxxx [rest of code] 
+~ NOR NULL => 1100 [rest of code]
+
+### COMPARING VALUES ###
+
+To comare values, subtract one value from the other.
+The Carry and Zero flag can tell you how the values compared.
+
+A-B:
+ - A==B : Z==1
+ - A!=B : Z==0
+ - A<B : C==0
+ - A>B : C==1 && Z==0
+ - A<=B : C==0 || Z==1
+ - A>=B : C==1
