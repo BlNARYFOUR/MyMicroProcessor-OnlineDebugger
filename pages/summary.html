@@ -96,8 +96,8 @@
             </tr>
             <tr>
                 <td>1101 xxxx xxxx xxxx</td>
-                <td>NOT [var]</td>
-                <td>Performs a NOT with a value from RAM. The carry-out and zero flags are set by the results of the NOT.</td>
+                <td>XOR [var]</td>
+                <td>Performs a XOR with a value from RAM. The carry-out and zero flags are set by the results of the XOR.</td>
             </tr>
             <tr>
                 <td>1110 xxxx xxxx xxxx</td>
@@ -106,9 +106,9 @@
             </tr>
             <tr></tr>
             <tr>
-                <td>1111</td>
-                <td>RETURN</td>
-                <td>Return to the latest jump in JUMPSTACK</td>
+                <td>1111 xxxx</td>
+                <td>RETURN / HALT</td>
+                <td>Return to the latest jump in JUMPSTACK / if HALT: xxxx == 1111 and processor will halt running state.</td>
             </tr>
         </table>
         <br>

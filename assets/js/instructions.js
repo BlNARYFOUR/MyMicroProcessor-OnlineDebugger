@@ -109,15 +109,22 @@ const instructions = {
     },
     RETURN: {
         code: 15,
+        subCode: 0,
         param: params.none,
-        action: returnInstruction
+        action: returnAndHaltInstruction
+    },
+    HALT: {
+        code: 15,
+        subCode: 15,
+        param: params.none,
+        action: returnAndHaltInstruction
     }
 };
 
 
 
 function nop() {
-    console.log("NOOPPEE");
+    console.log("NO OPERATION");
 }
 
 function movrw() {
@@ -176,6 +183,6 @@ function nand() {
 
 }
 
-function returnInstruction() {
+function returnAndHaltInstruction() {
 
 }

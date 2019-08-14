@@ -22,6 +22,7 @@ function processProgramInput(e) {
     let lines = e.target.innerText.split("\n");
     let lineCount = 1;
     let cmdIndex = 0;
+    let instructionIndex = 0;
 
     let htmlStr = "";
 
@@ -45,8 +46,9 @@ function processProgramInput(e) {
             htmlStr += res.htmlRes;
 
             // Search for command
-            res = testAndProcessCommand(line, cmdIndex);
+            res = testAndProcessCommand(line, cmdIndex, instructionIndex);
             cmdIndex = res.cmdIndex;
+            instructionIndex = res.instructionIndex;
             line = res.line;
             htmlStr += res.htmlRes;
 
@@ -57,7 +59,7 @@ function processProgramInput(e) {
                 htmlStr += res.htmlRes;
             } else {
                 // Search for params, if command has been found
-                res = processCommandParams(line, res.cmdObj, cmdIndex);
+                res = processCommandParams(line, res.cmdObj, cmdIndex, instructionIndex);
                 cmdIndex = res.cmdIndex;
                 line = res.line;
                 htmlStr += res.htmlRes;
@@ -121,7 +123,7 @@ function testAndProcessWhiteSpace(line) {
     };
 }
 
-function processCommandParams(line, cmdObj, cmdIndex) {
+function processCommandParams(line, cmdObj, cmdIndex, instructionIndex) {
     let htmlRes = "";
     let param = "";
     let paramEndIndex = 0;
@@ -153,7 +155,7 @@ function processCommandParams(line, cmdObj, cmdIndex) {
                 if(res.succeeded) {
                     let extra = res.badParam ? " bad" : "";
 
-                    param += '</span> <span class="param'+ extra +'">' + res.param;
+                    param += '</span> <span class="param param-' + instructionIndex + extra + '">' + res.param;
                     paramEndIndex = res.index-1;
                 }
 
@@ -315,7 +317,7 @@ function testAndProcessLabel(line) {
     };
 }
 
-function testAndProcessCommand(line, cmdIndex) {
+function testAndProcessCommand(line, cmdIndex, instructionIndex) {
     let htmlRes = "";
     let command = "";
     let commandEndIndex = 0;
@@ -334,17 +336,19 @@ function testAndProcessCommand(line, cmdIndex) {
     }
 
     if(0 <= Object.keys(instructions).indexOf(command.toUpperCase())) {
-        htmlRes = '<span class="instruction cmd-' + cmdIndex + '">' + command + '</span>';
+        htmlRes = '<span class="instruction cmd-' + cmdIndex + ' instruction-' + instructionIndex + '">' + command + '</span>';
         cmdIndex++;
+        instructionIndex++;
         commandFound = true;
         line = line.slice(commandEndIndex);
         cmdObj = instructions[command.toUpperCase()];
     } else if(0 <= Object.keys(compilerCommands).indexOf(command.toUpperCase())) {
-        htmlRes = '<span class="instruction cmd-' + cmdIndex + '">' + command + '</span>';
+        htmlRes = '<span class="instruction cmd-' + cmdIndex + ' instruction-' + instructionIndex + '">' + command + '</span>';
         commandFound = true;
         line = line.slice(commandEndIndex);
         cmdObj = compilerCommands[command.toUpperCase()];
         cmdIndex++;
+        instructionIndex++;
     }
 
     return {
@@ -352,7 +356,8 @@ function testAndProcessCommand(line, cmdIndex) {
         htmlRes: htmlRes,
         commandFound: commandFound,
         cmdObj: cmdObj,
-        cmdIndex: cmdIndex
+        cmdIndex: cmdIndex,
+        instructionIndex: instructionIndex
     };
 }
 

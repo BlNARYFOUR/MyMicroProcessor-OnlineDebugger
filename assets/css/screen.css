@@ -8,16 +8,34 @@ main {
     margin-right: auto;
 }
 
-.editor {
+.wrapper {
     display: block;
     height: 495px;
-    border: solid thin black;
+    width: 100%;
     margin-bottom: 5px;
+    position: relative;
+}
+
+.editor {
+    display: inline-block;
+    height: 100%;
+    border: solid thin black;
     font-family: monospace;
     font-size: 1.5rem;
     overflow: hidden;
     position: relative;
     white-space: nowrap;
+    width: 49%;
+    vertical-align: top;
+}
+
+.simulation {
+    display: inline-block;
+    height: 100%;
+    width: 49%;
+    vertical-align: top;
+    position: absolute;
+    right: 0;
 }
 
 .lineCount {
@@ -67,6 +85,11 @@ main {
     padding: 5px;
     overflow-y: scroll;
     outline: none;
+}
+
+.ms-selector {
+    width: 95px;
+    padding-left: 3px;
 }
 
 .comment {

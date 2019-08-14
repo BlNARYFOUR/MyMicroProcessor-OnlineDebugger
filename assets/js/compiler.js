@@ -102,13 +102,18 @@ function onBuildRequest(e) {
             } else if(instruction.param === params.outAddress) {
                 if(line[2].toUpperCase() !== "NULL") {
                     address++;
-                    codeGen[address] = parseInt(line[2].toUpperCase().split("OUT").join(""));
+                    codeGen[address] = parseInt(line[2].toUpperCase().split("OUT").join("")) - 1;
                 }
             } else if(instruction.param === params.inAddress) {
                 if(line[2].toUpperCase() !== "NULL") {
                     address++;
-                    codeGen[address] = parseInt(line[2].toUpperCase().split("IN").join(""));
+                    codeGen[address] = parseInt(line[2].toUpperCase().split("IN").join("")) - 1;
                 }
+            }
+
+            if(instruction.subCode !== undefined) {
+                address++;
+                codeGen[address] = instruction.subCode;
             }
         }
 
@@ -137,6 +142,12 @@ function onBuildRequest(e) {
         } else {
             address++;
         }
+    }
+
+    if(4096 < codeGen.length) {
+        outputToTerminal("Code length: " + codeGen.length / 2 + " bytes", true);
+        outputToTerminal("FATAL: -- Max. code length of 2048 bytes has been exceeded --", true);
+        return;
     }
 
     for(let i = 0; i < codeGen.length; i++) {
@@ -212,6 +223,7 @@ function onBuildRequest(e) {
     outputToTerminal("Outputting build...");
     showBuildCode(codeGen);
     outputToTerminal("Done!");
+    outputToTerminal("Total code size: " + codeGen.length / 2 + " bytes.");
 
     document.querySelector("#stepForwardBtn").disabled = false;
 }

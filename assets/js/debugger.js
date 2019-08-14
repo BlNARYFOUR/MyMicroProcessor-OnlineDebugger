@@ -40,6 +40,7 @@ class Debugger {
     }
 
     resetSingleDebugInc() {
+        Debugger.stopHighlightingInstruction(this.i);
         this.i = -1;
     }
 }
@@ -58,5 +59,5 @@ function stepView(debug, e) {
 }
 
 function clearStepView(debug, e) {
-
+    debug.resetSingleDebugInc();
 }

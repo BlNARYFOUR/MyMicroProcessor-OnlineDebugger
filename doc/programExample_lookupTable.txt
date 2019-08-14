@@ -175,7 +175,7 @@ table:
   DEF tableValuesEndL AL tableValuesEnd
 
 
-# since the table is now for a 7 segment display, the length should be 2*9 = 18
+# since the table is now for a 7 segment display, the length should be 2*10 = 20
 getTableLength:
   tlh:
   movrw tableValuesEndH

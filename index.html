@@ -18,19 +18,24 @@
         </nav>
     </header>
     <main>
-        <div class="editor">
-            <div class="lineCount">
-                <div>1</div>
-            </div>
-            <div class="editor-ct">
-                <div class="editor-code">
-                    <div>
-                        <span class="comment"># You can go and write your own code</span>
+        <div class="wrapper">
+            <div class="editor">
+                <div class="lineCount">
+                    <div>1</div>
+                </div>
+                <div class="editor-ct">
+                    <div class="editor-code">
+                        <div>
+                            <span class="comment"># You can go and write your own code</span>
+                        </div>
+                    </div>
+                    <div class="editor-type" contenteditable="true" spellcheck="false">
+                        # You can go and write your own code
                     </div>
                 </div>
-                <div class="editor-type" contenteditable="true" spellcheck="false">
-                    # You can go and write your own code
-                </div>
+            </div>
+            <div class="simulation">
+                here will come the simulation
             </div>
         </div>
         <div id="foot">
@@ -38,8 +43,8 @@
                 <button id="build">Build</button>
                 <button id="stepForwardBtn" disabled="disabled">Step Forward</button>
                 <button id="stepBackBtn" disabled="disabled">Step Back</button>
-                <button id="run" disabled="disabled">Run</button>
-                <input type="number" step="1" id="speed" name="speed" title="speed" placeholder="delay in ms" />
+                <!--button id="simulate" disabled="disabled">Run</button-->
+                <!--input class="ms-selector" type="number" step="1" min="250" max="10000" id="speed" name="speed" title="speed" placeholder="delay in ms" /-->
             </div>
             <div id="out">
                 <div id="terminal"></div>
@@ -51,7 +56,7 @@
     <script type="text/javascript" src="assets/js/instructions.js"></script>
     <script type="text/javascript" src="assets/js/preCompilerRegistries.js"></script>
     <script type="text/javascript" src="assets/js/layout.js"></script>
-    <script type="text/javascript" src="assets/js/ram.js"></script>
+    <script type="text/javascript" src="assets/js/processor.js"></script>
     <script type="text/javascript" src="assets/js/compiler.js"></script>
     <script type="text/javascript" src="assets/js/debugger.js"></script>
 </body>
