@@ -71,7 +71,7 @@ function ALU(amountOfBits) {
     };
 
     this.subtract = function (val) {
-        this.add(val ^ (this.overflowVal - 1) + 1);
+        this.add((val ^ (this.overflowVal - 1)) + 1);
     };
 
     this.nor = function (val) {
@@ -94,12 +94,28 @@ function ALU(amountOfBits) {
 }
 
 function JumpStack(memSize) {
+    this.stack = [];
+    this.push = function (address) {
+        if(memSize <= this.stack.length) {
+            this.stack.shift();
+        }
+        this.stack.push(address);
+    };
 
+    this.pop = function () {
+        return this.stack.pop();
+    };
+
+    this.isEmpty = function () {
+        return this.stack.length === 0;
+    }
 }
 
 function Processor(bootData) {
+    this.halted = false;
     this.RAM = new RAM(4096);
     this.ALU = new ALU(4);
+    this.JS = new JumpStack(16);
     this.IC = {
         counter: 0,
         increase: () => {
@@ -110,6 +126,10 @@ function Processor(bootData) {
     this.RAM.resetWithBaseData(bootData);
 
     this.executeCommand = () => {
+        if(this.halted) {
+            return;
+        }
+
         let buf = Object.values(instructions).filter((instruction) => {
             return instruction.code === this.RAM.get(this.IC.counter);
         });

@@ -150,12 +150,14 @@ function moviw(processor, address) {
 
 function jump(processor, address) {
     console.log("JUMP", address);
+    processor.JS.push(processor.IC.counter);
     processor.IC.counter = address;
 }
 
 function jc(processor, address) {
     if(processor.ALU.flags.carry) {
         console.log("JC", address);
+        processor.JS.push(processor.IC.counter);
         processor.IC.counter = address;
     } else {
         console.log("JC skipped");
@@ -165,6 +167,7 @@ function jc(processor, address) {
 function jnc(processor, address) {
     if(!processor.ALU.flags.carry) {
         console.log("JNC", address);
+        processor.JS.push(processor.IC.counter);
         processor.IC.counter = address;
     } else {
         console.log("JNC skipped");
@@ -174,6 +177,7 @@ function jnc(processor, address) {
 function jz(processor, address) {
     if(processor.ALU.flags.zero) {
         console.log("JZ", address);
+        processor.JS.push(processor.IC.counter);
         processor.IC.counter = address;
     } else {
         console.log("JZ skipped");
@@ -183,6 +187,7 @@ function jz(processor, address) {
 function jnz(processor, address) {
     if(!processor.ALU.flags.zero) {
         console.log("JNZ", address);
+        processor.JS.push(processor.IC.counter);
         processor.IC.counter = address;
     } else {
         console.log("JNZ skipped");
@@ -214,10 +219,15 @@ function nand(processor, address) {
     processor.nand(processor.RAM.get(address));
 }
 
-function returnInstruction() {
-
+function returnInstruction(processor) {
+    console.log("RETURN");
+    if(processor.JS.isEmpty()) {
+        processor.halted = true;
+    }
+    processor.IC.counter = processor.JS.pop();
 }
 
-function halt() {
-
+function halt(processor) {
+    console.log("HALT");
+    processor.halted = true;
 }
