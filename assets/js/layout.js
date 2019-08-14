@@ -160,9 +160,9 @@ function processCommandParams(line, cmdObj, cmdIndex, instructionIndex) {
                 }
 
                 if(res.extraParam) {
-                    res = testAndProcessExtraDefParams02(line, paramEndIndex+2);
+                    res = testAndProcessExtraDefParams02(line, paramEndIndex+2, instructionIndex);
                     if(res.succeeded) {
-                        param += '</span> <span class="param jump">' + res.param;
+                        param += '</span> <span class="param param-' + instructionIndex + ' jump">' + res.param;
                         paramEndIndex = res.index-1;
                     }
                 }
@@ -191,9 +191,9 @@ function processCommandParams(line, cmdObj, cmdIndex, instructionIndex) {
         }
 
         if(isGoodParam) {
-            htmlRes = ' <span class="param' + extra + '">' + param + '</span>';
+            htmlRes = ' <span class="param param-' + instructionIndex + extra + '">' + param + '</span>';
         } else {
-            htmlRes = ' <span class="param bad">' + param + '</span>';
+            htmlRes = ' <span class="param param-' + instructionIndex + 'bad">' + param + '</span>';
         }
 
         line = line.slice(paramEndIndex+1);
@@ -246,7 +246,7 @@ function testAndProcessExtraDefParams01(line, index) {
     };
 }
 
-function testAndProcessExtraDefParams02(line, index) {
+function testAndProcessExtraDefParams02(line, index, instructionIndex) {
     let htmlRes = "";
     let param = "";
     let paramEndIndex = index;
@@ -264,7 +264,7 @@ function testAndProcessExtraDefParams02(line, index) {
     }
 
     if(/^[a-zA-Z][a-zA-Z0-9]*$/.test(param)) {
-        htmlRes = '<span class="param jump">' + param + '</span>';
+        htmlRes = '<span class="param param-' + instructionIndex + ' jump">' + param + '</span>';
         line = line.slice(paramEndIndex);
         succeeded = true;
     }

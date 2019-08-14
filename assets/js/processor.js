@@ -1,7 +1,7 @@
 "use strict";
 
 function RAM(memSize) {
-    this.memory = new Array(memSize);
+    this.memory = [];
 
     this.get = function (address) {
         if(address < 0 || this.memory.length < address) {
@@ -19,11 +19,36 @@ function RAM(memSize) {
         this.memory[address] = value;
     };
 
-    this.setFromArray = function (data) {
+    this.reset = function () {
+        this.memory = [];
+
+        for(let i = 0; i < memSize; i++) {
+            this.memory.push(0);
+        }
+    };
+
+    this.resetWithBaseData = function (data) {
+        this.memory = [];
         if(memSize < data.length) {
             throw new RangeException("data exceeds max. memory size");
+        } else {
+            let str = '';
+            data.forEach((val) => {
+                this.memory.push(val);
+            });
+            console.log(str);
         }
-    }
+
+        for(let i = this.memory.length; i < memSize; i++) {
+            this.memory.push(0);
+        }
+    };
+
+    this.size = function () {
+        return this.memory.length;
+    };
+
+    this.reset();
 }
 
 function ALU(amountOfBits) {
@@ -33,12 +58,10 @@ function ALU(amountOfBits) {
     this.flags = {
         carry: false,
         zero: false,
-        update: update
-    };
-
-    let update = () => {
-        this.flags.carry = this.overflowVal <= this.buf;
-        this.flags.zero = this.wreg === 0;
+        update: () => {
+            this.flags.carry = this.overflowVal <= this.buf;
+            this.flags.zero = this.wreg === 0;
+        }
     };
 
     this.add = function (val) {
@@ -54,5 +77,55 @@ function ALU(amountOfBits) {
     this.nor = function (val) {
         this.buf = this.wreg + val;
         this.wreg = ~(this.wreg | val);
+    }
+}
+
+function Processor(bootData) {
+    this.RAM = new RAM(4096);
+    this.ALU = new ALU(4);
+    this.IC = {
+        counter: 0,
+        increase: () => {
+            this.IC.counter = (this.IC.counter + 1) % this.RAM.size();
+        }
+    };
+
+    this.RAM.resetWithBaseData(bootData);
+
+    this.executeCommand = () => {
+        let buf = Object.values(instructions).filter((instruction) => {
+            return instruction.code === this.RAM.get(this.IC.counter);
+        });
+
+        this.IC.increase();
+
+        //console.log(buf);
+
+        if(1 < buf.length) {
+            buf = buf.filter((instruction) => {
+                return instruction.subCode === this.RAM.get(this.IC.counter);
+            });
+            this.IC.increase();
+        }
+
+        //console.log(buf);
+
+        let instructionObj = buf[0];
+
+        if(instructionObj.param === params.jmpAddress || instructionObj.param === params.address) {
+            let address = this.RAM.get(this.IC.counter) * 256;
+            this.IC.increase();
+            address += this.RAM.get(this.IC.counter) * 16;
+            this.IC.increase();
+            address += this.RAM.get(this.IC.counter);
+            this.IC.increase();
+            instructionObj.action(this, address);
+        } else if(instructionObj.param === params.inAddress || instructionObj.param === params.outAddress) {
+            let address = this.RAM.get(this.IC.counter);
+            this.IC.increase();
+            instructionObj.action(this, address);
+        } else {
+            instructionObj.action(this);
+        }
     }
 }

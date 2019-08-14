@@ -1,0 +1,45 @@
+jump main
+
+
+
+### CONSTANTS ###
+
+def one 1
+
+### VARS ###
+
+def counter 0
+
+### MAIN ###
+
+main:
+
+movrw counter
+add one
+MOVWR counter
+
+movwr null
+def valuesH AH values
+def valuesM AM values
+def valuesL AL values
+
+MOVRW valuesL
+add one
+movwr valuesL
+
+jump main
+
+
+
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+
+values:

@@ -1,3 +1,5 @@
+"use strict";
+
 const params = {
     none: {
         id: 0,
@@ -111,44 +113,53 @@ const instructions = {
         code: 15,
         subCode: 0,
         param: params.none,
-        action: returnAndHaltInstruction
+        action: returnInstruction
     },
     HALT: {
         code: 15,
         subCode: 15,
         param: params.none,
-        action: returnAndHaltInstruction
+        action: halt
     }
 };
 
 
 
-function nop() {
-    console.log("NO OPERATION");
+function nop(processor) {
+    console.log("NOP");
 }
 
-function movrw() {
-
+function movrw(processor, address) {
+    console.log("MOVRW", address);
+    processor.ALU.wreg = processor.RAM.get(address);
 }
 
-function movwr() {
-
+function movwr(processor, address) {
+    console.log("MOVWR", address);
+    processor.RAM.set(address, processor.ALU.wreg);
 }
 
-function movwo() {
-
+function movwo(processor, address) {
+    alert("OUT" + (address < 10 ? "0" + address : address) + ": " + processor.ALU.wreg);
 }
 
-function moviw() {
-
+function moviw(processor, address) {
+    let input = prompt("IN" + (address < 10 ? "0" + address : address), '0');
+    processor.ALU.wreg = parseInt(input);
 }
 
-function jump() {
-
+function jump(processor, address) {
+    console.log("JUMP", address);
+    processor.IC.counter = address;
 }
 
-function jc() {
-
+function jc(processor, address) {
+    if(processor.ALU.flags.carry) {
+        console.log("JC", address);
+        processor.IC.counter = address;
+    } else {
+        console.log("JC skipped");
+    }
 }
 
 function jnc() {
@@ -163,8 +174,9 @@ function jnz() {
 
 }
 
-function add() {
-
+function add(processor, address) {
+    console.log("ADD", address);
+    processor.ALU.add(processor.RAM.get(address));
 }
 
 function sub() {
@@ -183,6 +195,10 @@ function nand() {
 
 }
 
-function returnAndHaltInstruction() {
+function returnInstruction() {
+
+}
+
+function halt() {
 
 }
