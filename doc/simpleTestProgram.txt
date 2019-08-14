@@ -1,45 +1,37 @@
-jump main
+jump start
 
+def A 3
+def B 2
 
-
-### CONSTANTS ###
-
-def one 1
-
-### VARS ###
+def QH 0
+def QL 0
 
 def counter 0
+def one 1
 
-### MAIN ###
+start:
+
+movrw B
+movwr counter
 
 main:
 
+movrw QL
+add A
+movwr QL
+
+jnc check
+
+movrw QH
+add one
+movwr QH
+
+check:
+
 movrw counter
-add one
-MOVWR counter
+sub one
+movwr counter
 
-movwr null
-def valuesH AH values
-def valuesM AM values
-def valuesL AL values
+jnz main
 
-MOVRW valuesL
-add one
-movwr valuesL
-
-jump main
-
-
-
-nop
-nop
-nop
-nop
-nop
-nop
-nop
-nop
-nop
-nop
-
-values:
+halt

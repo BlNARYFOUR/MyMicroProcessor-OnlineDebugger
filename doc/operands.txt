@@ -18,10 +18,10 @@
 1011 xxxx xxxx xxxx		SUB	[var]					- Subtract a RAM value to WREG. The carry-out and zero flags are set by the results of the subtraction.
 
 1100 xxxx xxxx xxxx		NOR	[var]					- Performs a NOR with a value from RAM. The carry-out and zero flags are set by the results of the NOR.
-1101 xxxx xxxx xxxx		XOR	[var]					- Performs a NOT with a value from RAM. The carry-out and zero flags are set by the results of the NOT.
+1101 xxxx xxxx xxxx		XOR	[var]					- Performs a XOR with a value from RAM. The carry-out and zero flags are set by the results of the XOR.
 1110 xxxx xxxx xxxx		NAND	[var]					- Performs a NAND with a value from RAM. The carry-out and zero flags are set by the results of the NAND.
 
-1111				RETURN						- Stops any further execution of code.
+1111 xxxx			RETURN / HALT					- Return to the latest jump in JUMPSTACK / if HALT: xxxx == 1111 and processor will halt running state.
 
 Every non compiler command that takes an ADDRESS as parameter, can use NULL as parameter. If you give NULL as parameter, only the opcode will be compiled 
 example: 
