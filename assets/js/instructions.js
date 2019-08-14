@@ -162,16 +162,31 @@ function jc(processor, address) {
     }
 }
 
-function jnc() {
-
+function jnc(processor, address) {
+    if(!processor.ALU.flags.carry) {
+        console.log("JNC", address);
+        processor.IC.counter = address;
+    } else {
+        console.log("JNC skipped");
+    }
 }
 
-function jz() {
-
+function jz(processor, address) {
+    if(processor.ALU.flags.zero) {
+        console.log("JZ", address);
+        processor.IC.counter = address;
+    } else {
+        console.log("JZ skipped");
+    }
 }
 
-function jnz() {
-
+function jnz(processor, address) {
+    if(!processor.ALU.flags.zero) {
+        console.log("JNZ", address);
+        processor.IC.counter = address;
+    } else {
+        console.log("JNZ skipped");
+    }
 }
 
 function add(processor, address) {
@@ -179,20 +194,24 @@ function add(processor, address) {
     processor.ALU.add(processor.RAM.get(address));
 }
 
-function sub() {
-
+function sub(processor, address) {
+    console.log("SUB", address);
+    processor.ALU.subtract(processor.RAM.get(address));
 }
 
-function nor() {
-
+function nor(processor, address) {
+    console.log("NOR", address);
+    processor.ALU.nor(processor.RAM.get(address));
 }
 
-function xor() {
-
+function xor(processor, address) {
+    console.log("XOR", address);
+    processor.ALU.xor(processor.RAM.get(address));
 }
 
-function nand() {
-
+function nand(processor, address) {
+    console.log("NAND", address);
+    processor.nand(processor.RAM.get(address));
 }
 
 function returnInstruction() {

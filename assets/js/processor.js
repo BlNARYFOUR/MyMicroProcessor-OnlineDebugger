@@ -77,7 +77,24 @@ function ALU(amountOfBits) {
     this.nor = function (val) {
         this.buf = this.wreg + val;
         this.wreg = ~(this.wreg | val);
-    }
+        this.flags.update();
+    };
+
+    this.xor = function (val) {
+        this.buf = this.wreg + val;
+        this.wreg ^= val;
+        this.flags.update();
+    };
+
+    this.nand = function (val) {
+        this.buf = this.wreg + val;
+        this.wreg = ~(this & val);
+        this.flags.update();
+    };
+}
+
+function JumpStack(memSize) {
+
 }
 
 function Processor(bootData) {

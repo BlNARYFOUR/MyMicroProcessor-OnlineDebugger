@@ -25,13 +25,11 @@
                 <td>[label]:</td>
                 <td>Compiler command for registering a string label that can be used in jump statements.</td>
             </tr>
-            <tr></tr>
             <tr>
                 <td>0000</td>
                 <td>NOP</td>
                 <td>No operation</td>
             </tr>
-            <tr></tr>
             <tr>
                 <td>0001 xxxx xxxx xxxx</td>
                 <td>MOVRW [var]</td>
@@ -52,7 +50,6 @@
                 <td>MOVIW [var]</td>
                 <td>Move from one of the 16 input ports (IN01-IN16) to WREG</td>
             </tr>
-            <tr></tr>
             <tr>
                 <td>0101 xxxx xxxx xxxx</td>
                 <td>JUMP [label]</td>
@@ -76,8 +73,8 @@
             <tr>
                 <td>1001 xxxx xxxx xxxx</td>
                 <td>JNZ [label]</td>
-                <td>jump if not zero</td></tr>
-            <tr></tr>
+                <td>jump if not zero</td>
+            </tr>
             <tr>
                 <td>1010 xxxx xxxx xxxx</td>
                 <td>ADD [var]</td>
@@ -88,7 +85,6 @@
                 <td>SUB [var]</td>
                 <td>Subtract a RAM value to WREG. The carry-out and zero flags are set by the results of the subtraction.</td>
             </tr>
-            <tr></tr>
             <tr>
                 <td>1100 xxxx xxxx xxxx</td>
                 <td>NOR [var]</td>
@@ -104,7 +100,6 @@
                 <td>NAND [var]</td>
                 <td>Performs a NAND with a value from RAM. The carry-out and zero flags are set by the results of the NAND.</td>
             </tr>
-            <tr></tr>
             <tr>
                 <td>1111 xxxx</td>
                 <td>RETURN / HALT</td>
@@ -119,6 +114,22 @@
             <br>~ NOR [label] => 1100 xxxx xxxx xxxx [rest of code]
             <br>~ NOR NULL => 1100 [rest of code]
         </p>
+        <h4>COMPARING VALUES</h4>
+        <p>
+            <br>
+            <br>To compare values, subtract one value from the other.
+            <br>The Carry and Zero flag can tell you how the values compared.
+            <br>
+            <br>A-B:
+        </p>
+        <ul>
+            <li>A==B : Z==1</li>
+            <li>A!=B : Z==0</li>
+            <li>A&lt;B : C==0</li>
+            <li>A>B : C==1 && Z==0</li>
+            <li>A&lt;=B : C==0 || Z==1</li>
+            <li>A>=B : C==1</li>
+        </ul>
     </main>
 </body>
 </html>
