@@ -29,15 +29,6 @@ main {
     vertical-align: top;
 }
 
-.simulation {
-    display: inline-block;
-    height: 100%;
-    width: 49%;
-    vertical-align: top;
-    position: absolute;
-    right: 0;
-}
-
 .lineCount {
     position: absolute;
     top: 0;
@@ -139,6 +130,117 @@ main {
 
 .highlight-main {
     background-color: red;
+}
+
+.simulation {
+    display: inline-block;
+    height: 100%;
+    width: 49%;
+    vertical-align: top;
+    position: absolute;
+    right: 0;
+    background: #f0f0f0;
+}
+
+.simulation .processor {
+    width: 100%;
+    height: 50%;
+    line-height: 0;
+    position: relative;
+}
+
+.simulation .processor .topPins, .simulation .processor .bottomPins {
+    width: 520px;
+    height: 20px;
+    position: absolute;
+    left: calc(50% - 520px / 2);
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+.simulation .processor .topPins {
+    top: calc(50% - 170px / 2 - 20px);
+}
+
+.simulation .processor .bottomPins {
+    bottom: calc(50% - 170px / 2 - 20px);
+}
+
+.simulation .processor .leftPins, .simulation .processor .rightPins {
+    width: 20px;
+    height: 170px;
+    position: absolute;
+    top: calc(50% - 170px / 2);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.simulation .processor .leftPins {
+    left: calc(50% - 520px / 2 - 20px);
+}
+
+.simulation .processor .rightPins {
+    right: calc(50% - 520px / 2 - 20px);
+}
+
+.simulation .processor .pin {
+    height: 12px;
+    width: 12px;
+    border: 3px solid darkgreen;
+    background: darkgreen;
+}
+
+.simulation .processor .pin.active {
+    background-color: limegreen;
+    border-color: limegreen;
+}
+
+.simulation .processor .pin.left {
+    width: 100%;
+    border-top-color: #f0f0f0 !important;
+    border-left-color: #f0f0f0 !important;
+    border-bottom-color: #f0f0f0 !important;
+    border-right-width: 4px;
+    margin: 2px 0;
+}
+
+.simulation .processor .pin.bottom {
+    height: 100%;
+    border-left-color: #f0f0f0 !important;
+    border-bottom-color: #f0f0f0 !important;
+    border-right-color: #f0f0f0 !important;
+    border-top-width: 4px;
+    margin: 0 2px;
+}
+
+.simulation .processor .pin.right {
+    width: 100%;
+    border-top-color: #f0f0f0 !important;
+    border-right-color: #f0f0f0 !important;
+    border-bottom-color: #f0f0f0 !important;
+    border-left-width: 4px;
+    margin: 2px 0;
+}
+
+.simulation .processor .pin.top {
+    height: 100%;
+    border-left-color: #f0f0f0 !important;
+    border-top-color: #f0f0f0 !important;
+    border-right-color: #f0f0f0 !important;
+    border-bottom-width: 4px;
+    margin: 0 2px;
+}
+
+.simulation .processor .body {
+    width: 520px;
+    height: 170px;
+    background: #d0d0d0;
+    border: thin black solid;
+    position: absolute;
+    top: calc(50% - 170px / 2);
+    left: calc(50% - 520px / 2);
 }
 
 #foot {

@@ -1,6 +1,6 @@
 "use strict";
 
-function RAM(memSize) {
+function Memory(memSize) {
     this.memory = [];
 
     this.get = function (address) {
@@ -113,7 +113,9 @@ function JumpStack(memSize) {
 
 function Processor(bootData) {
     this.halted = false;
-    this.RAM = new RAM(4096);
+    this.RAM = new Memory(4096);
+    this.outputModule = new Memory(8);
+    this.inputModule = new Memory(8);
     this.ALU = new ALU(4);
     this.JS = new JumpStack(16);
     this.IC = {

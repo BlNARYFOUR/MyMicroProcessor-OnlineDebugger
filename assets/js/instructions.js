@@ -140,12 +140,13 @@ function movwr(processor, address) {
 }
 
 function movwo(processor, address) {
-    alert("OUT" + (address < 10 ? "0" + address : address) + ": " + processor.ALU.wreg);
+    console.log("MOVWO", address);
+    processor.outputModule.set(address, processor.ALU.wreg);
 }
 
 function moviw(processor, address) {
-    let input = prompt("IN" + (address < 10 ? "0" + address : address), '0');
-    processor.ALU.wreg = parseInt(input);
+    console.log("MOVIW", address);
+    processor.ALU.wreg = processor.inputModule.get(address);
 }
 
 function jump(processor, address) {

@@ -34,4 +34,9 @@ movwr counter
 
 jnz main
 
+movrw QL
+movwo out01
+movrw QH
+movwo out02
+
 halt

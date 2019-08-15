@@ -1,6 +1,7 @@
 "use strict";
 
 const compiler = {
+    compiled: false,
     code: [],
     register: {
         labels: [],
@@ -225,6 +226,7 @@ function onBuildRequest(e) {
     outputToTerminal("Done!");
     outputToTerminal("Total code size: " + codeGen.length / 2 + " bytes.");
 
+    compiler.compiled = true;
     document.querySelector("#stepForwardBtn").disabled = false;
 }
 
