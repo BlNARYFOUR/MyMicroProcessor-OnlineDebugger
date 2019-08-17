@@ -15,6 +15,7 @@ function onScroll(e) {
 
 function processProgramInput(e) {
     document.querySelector("#stepForwardBtn").disabled = "disabled";
+    disableSimButtons();
     clearBuildTerminal();
     clearRegisteredVars();
     clearRegisteredLabels();
@@ -336,7 +337,12 @@ function testAndProcessCommand(line, cmdIndex, instructionIndex) {
     }
 
     if(0 <= Object.keys(instructions).indexOf(command.toUpperCase())) {
-        htmlRes = '<span class="instruction cmd-' + cmdIndex + ' instruction-' + instructionIndex + '">' + command + '</span>';
+        let extra = '';
+        if(instructions[command.toUpperCase()].subCode !== undefined) {
+            extra = 'cmd-' + cmdIndex;
+            cmdIndex++;
+        }
+        htmlRes = '<span class="instruction ' + extra + ' cmd-' + cmdIndex + ' instruction-' + instructionIndex + '">' + command + '</span>';
         cmdIndex++;
         instructionIndex++;
         commandFound = true;

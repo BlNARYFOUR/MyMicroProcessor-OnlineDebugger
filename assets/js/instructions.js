@@ -224,6 +224,7 @@ function returnInstruction(processor) {
     console.log("RETURN");
     if(processor.JS.isEmpty()) {
         processor.halted = true;
+        console.log("- HALTED");
     }
     processor.IC.counter = processor.JS.pop();
 }

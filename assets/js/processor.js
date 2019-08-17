@@ -32,11 +32,9 @@ function Memory(memSize) {
         if(memSize < data.length) {
             throw new RangeException("data exceeds max. memory size");
         } else {
-            let str = '';
             data.forEach((val) => {
                 this.memory.push(val);
             });
-            console.log(str);
         }
 
         for(let i = this.memory.length; i < memSize; i++) {

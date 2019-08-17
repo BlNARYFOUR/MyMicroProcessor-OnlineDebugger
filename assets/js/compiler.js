@@ -228,6 +228,8 @@ function onBuildRequest(e) {
 
     compiler.compiled = true;
     document.querySelector("#stepForwardBtn").disabled = false;
+    document.querySelector("#toggleSim").disabled = false;
+    //startSimulation();
 }
 
 function showBuildCode(code) {
