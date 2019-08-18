@@ -74,7 +74,7 @@ function ALU(amountOfBits) {
 
     this.nor = function (val) {
         this.buf = this.wreg + val;
-        this.wreg = ~(this.wreg | val);
+        this.wreg = this.overflowVal + ~(this.wreg | val);
         this.flags.update();
     };
 
@@ -86,7 +86,7 @@ function ALU(amountOfBits) {
 
     this.nand = function (val) {
         this.buf = this.wreg + val;
-        this.wreg = ~(this & val);
+        this.wreg = this.overflowVal + ~(this.wreg & val);
         this.flags.update();
     };
 }

@@ -14,8 +14,10 @@ function onScroll(e) {
 }
 
 function processProgramInput(e) {
+    disableSim();
     document.querySelector("#stepForwardBtn").disabled = "disabled";
-    disableSimButtons();
+    document.querySelector("#stepBackBtn").disabled = "disabled";
+    document.querySelector("#toggleSim").disabled = "disabled";
     clearBuildTerminal();
     clearRegisteredVars();
     clearRegisteredLabels();

@@ -18,16 +18,26 @@ function init(e) {
 
 function toggleSimAndDebug(e) {
     if(isSimMode) {
-        disableSimButtons();
-        enableDebugButtons();
-        document.querySelector('#toggleSim').innerHTML = 'Enable Simulation';
+        disableSim();
     } else {
-        startSimulation();
-        disableDebugButtons();
-        document.querySelector('#toggleSim').innerHTML = 'Disable Simulation';
+        enableSim();
     }
+}
 
-    isSimMode = !isSimMode;
+function disableSim() {
+    Debugger.stopHighlightingInstruction(prevCmd);
+    disableSimButtons();
+    enableDebugButtons();
+    document.querySelector('#toggleSim').innerHTML = 'Enable Simulation';
+    isSimMode = false;
+}
+
+function enableSim() {
+    clearStepView(debug);
+    startSimulation();
+    disableDebugButtons();
+    document.querySelector('#toggleSim').innerHTML = 'Disable Simulation';
+    isSimMode = true;
 }
 
 function enableDebugButtons() {
@@ -45,7 +55,7 @@ function disableDebugButtons() {
 
     Object.values(buttons.children).forEach((button) => {
         if(button.id !== 'toggleSim') {
-            button.disabled = true;
+            button.disabled = "disabled";
         }
     });
 }
@@ -62,7 +72,7 @@ function disableSimButtons() {
     let simButtons = document.querySelector("#simButtons");
 
     Object.values(simButtons.children).forEach((button) => {
-        button.disabled = true;
+        button.disabled = "disabled";
     });
 }
 

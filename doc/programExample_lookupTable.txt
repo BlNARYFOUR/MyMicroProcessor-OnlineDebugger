@@ -31,17 +31,17 @@ DEF out3 0
 
 main:
 
-MOVIW in01       # get input
+MOVIW in1       # get input
 NAND testInput   # set every bit on 0 except the one to test
 XOR notter       # if the bit is on, this will set the Zero Flag
 
-JNZ main
+JZ main
 
 btnHigh:
-MOVIW in01
+MOVIW in1
 NAND testInput
 XOR notter       # if the bit is off, the Zero Flag will be 0
-JZ btnHigh
+JNZ btnHigh
 
 # update counter
 MOVRW counter
@@ -63,9 +63,9 @@ MOVRW counter
 MOVWR in1
 JUMP table
 movrw out1
-movwo out01
+movwo out1
 movrw out2
-movwo out02
+movwo out2
 JUMP main
 
 ### END MAIN ###

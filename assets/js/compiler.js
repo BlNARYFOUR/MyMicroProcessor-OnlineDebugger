@@ -228,6 +228,7 @@ function onBuildRequest(e) {
 
     compiler.compiled = true;
     document.querySelector("#stepForwardBtn").disabled = false;
+    document.querySelector("#stepBackBtn").disabled = false;
     document.querySelector("#toggleSim").disabled = false;
     //startSimulation();
 }
@@ -348,7 +349,7 @@ function checkCodeValidity(code) {
             } else if(commandObj.param === params.inAddress) {
                 if(line[2] !== undefined) {
                     let param1 = line[2].toUpperCase();
-                    if(/^IN(0[1-9]|1[0-6])$|^NULL$/.test(param1)) {
+                    if(/^IN[1-8]$|^NULL$/.test(param1)) {
                         if(line[3] !== undefined) {
                             let param2 = line[3];
                             return "On line " + lineNum + ": parameter '" + param2 + "' not expected.";
@@ -362,7 +363,7 @@ function checkCodeValidity(code) {
             } else if(commandObj.param === params.outAddress) {
                 if(line[2] !== undefined) {
                     let param1 = line[2].toUpperCase();
-                    if(/^OUT(0[1-9]|1[0-6])$|^NULL$/.test(param1)) {
+                    if(/^OUT[1-8]$|^NULL$/.test(param1)) {
                         if(line[3] !== undefined) {
                             let param2 = line[3];
                             return "On line " + lineNum + ": parameter '" + param2 + "' not expected.";

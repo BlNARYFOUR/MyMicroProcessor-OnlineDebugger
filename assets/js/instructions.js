@@ -22,13 +22,13 @@ const params = {
     inAddress: {
         id: 3,
         test: function (param) {
-            return /^IN(0[1-9]|1[0-6])$|^NULL$/.test(param);
+            return /^IN[1-8]$|^NULL$/.test(param);
         }
     },
     outAddress: {
         id: 4,
         test: function (param) {
-            return /^OUT(0[1-9]|1[0-6])$|^NULL$/.test(param);
+            return /^OUT[1-8]$|^NULL$/.test(param);
         }
     }
 };
@@ -158,7 +158,6 @@ function jump(processor, address) {
 function jc(processor, address) {
     if(processor.ALU.flags.carry) {
         console.log("JC", address);
-        processor.JS.push(processor.IC.counter);
         processor.IC.counter = address;
     } else {
         console.log("JC skipped");
@@ -168,7 +167,6 @@ function jc(processor, address) {
 function jnc(processor, address) {
     if(!processor.ALU.flags.carry) {
         console.log("JNC", address);
-        processor.JS.push(processor.IC.counter);
         processor.IC.counter = address;
     } else {
         console.log("JNC skipped");
@@ -178,7 +176,6 @@ function jnc(processor, address) {
 function jz(processor, address) {
     if(processor.ALU.flags.zero) {
         console.log("JZ", address);
-        processor.JS.push(processor.IC.counter);
         processor.IC.counter = address;
     } else {
         console.log("JZ skipped");
@@ -188,7 +185,6 @@ function jz(processor, address) {
 function jnz(processor, address) {
     if(!processor.ALU.flags.zero) {
         console.log("JNZ", address);
-        processor.JS.push(processor.IC.counter);
         processor.IC.counter = address;
     } else {
         console.log("JNZ skipped");
@@ -217,7 +213,7 @@ function xor(processor, address) {
 
 function nand(processor, address) {
     console.log("NAND", address);
-    processor.nand(processor.RAM.get(address));
+    processor.ALU.nand(processor.RAM.get(address));
 }
 
 function returnInstruction(processor) {

@@ -20,15 +20,6 @@ class Debugger {
         });
     }
 
-    static getTempDebugCodeForConsole() {
-        return "Debugger.stopHighlightingInstruction(i);\n" +
-            "i++;\n" +
-            "Debugger.highLightInstruction(i);\n" +
-            "console.log(\"ADDRESS:\",i);\n" +
-            "console.log(\"CMD:\",Object.keys(instructions)[compiler.code[i]]);\n" +
-            "console.log(\"BINARY:\",(compiler.code[i] < 8 ? (compiler.code[i] < 4 ? (compiler.code[i] < 2 ? \"000\" : \"00\") : \"0\") : \"\") + compiler.code[i].toString(2));";
-    }
-
     singleDebugInc() {
         Debugger.stopHighlightingInstruction(this.i);
         this.i++;
@@ -54,10 +45,11 @@ class Debugger {
     }
 }
 
+let debug = new Debugger();
+
 document.addEventListener("DOMContentLoaded", init);
 
 function init(e) {
-    let debug = new Debugger();
     document.querySelector("#stepForwardBtn").addEventListener("click", (e) => stepView(debug));
     document.querySelector("#stepBackBtn").addEventListener("click", (e) => redoView(debug));
     document.querySelector("#build").addEventListener("click", (e) => clearStepView(debug, e));

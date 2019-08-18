@@ -53,27 +53,27 @@
             <tr>
                 <td>0101 xxxx xxxx xxxx</td>
                 <td>JUMP [label]</td>
-                <td>unconditional jump</td>
+                <td>unconditional jump. Adds to JUMPSTACK.</td>
             </tr>
             <tr>
                 <td>0110 xxxx xxxx xxxx</td>
                 <td>JC [label]</td>
-                <td>jump if carry</td>
+                <td>jump if carry. Does NOT add to JUMPSTACK.</td>
             </tr>
             <tr>
                 <td>0111 xxxx xxxx xxxx</td>
                 <td>JNC [label]</td>
-                <td>jump if no carry</td>
+                <td>jump if no carry. Does NOT add to JUMPSTACK.</td>
             </tr>
             <tr>
                 <td>1000 xxxx xxxx xxxx</td>
                 <td>JZ [label]</td>
-                <td>jump if zero</td>
+                <td>jump if zero. Does NOT add to JUMPSTACK.</td>
             </tr>
             <tr>
                 <td>1001 xxxx xxxx xxxx</td>
                 <td>JNZ [label]</td>
-                <td>jump if not zero</td>
+                <td>jump if not zero. Does NOT add to JUMPSTACK.</td>
             </tr>
             <tr>
                 <td>1010 xxxx xxxx xxxx</td>
@@ -103,7 +103,7 @@
             <tr>
                 <td>1111 xxxx</td>
                 <td>RETURN / HALT</td>
-                <td>Return to the latest jump in JUMPSTACK / if HALT: xxxx == 1111 and processor will halt running state.</td>
+                <td>Return to the latest JUMP in JUMPSTACK / if HALT: xxxx == 1111 and processor will halt running state.</td>
             </tr>
         </table>
         <br>
