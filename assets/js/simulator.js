@@ -3,11 +3,13 @@
 let processorMain = null;
 let prevCmd = 0;
 let isSimMode = false;
+let interval = null;
 
 document.addEventListener("DOMContentLoaded", init);
 
 function init(e) {
     document.querySelector("#toggleSim").addEventListener("click", toggleSimAndDebug);
+    document.querySelector("#runSim").addEventListener("click", (event) => onToggleRunSimulation(processorMain, event));
     document.querySelector("#stepSim").addEventListener("click", (event) => stepSimulation(processorMain, event));
     let inputPins = document.querySelectorAll(".pin-in");
 
@@ -79,8 +81,13 @@ function disableSimButtons() {
 function onInputPinClick(e) {
     e.target.classList.toggle("active");
 
-    if(e.target.classList.contains("clock") && e.target.classList.contains("active")) {
-        stepSimulation(processorMain);
+    if(e.target.classList.contains("clock") && processorMain !== null) {
+        if(e.target.classList.contains("active")) {
+            processorMain.clock = true;
+            stepSimulation(processorMain);
+        } else {
+            processorMain.clock = false;
+        }
     }
 }
 
@@ -94,9 +101,27 @@ function startSimulation() {
     enableSimButtons();
 }
 
-function stepSimulation(processor, e) {
-    e.preventDefault();
+function onToggleRunSimulation(processor, e) {
+    if(interval === null) {
+        interval = setInterval(() => doHalfSimulation(processor), 250);
+        document.querySelector("#runSim").innerHTML = 'Stop';
+    } else {
+        clearInterval(interval);
+        interval = null;
+        document.querySelector("#runSim").innerHTML = 'Run';
+    }
+}
 
+function doHalfSimulation(processor) {
+    processor.toggleClock();
+    document.querySelector(".pin.clock").classList.toggle("active");
+
+    if(processor.clock) {
+        stepSimulation(processor);
+    }
+}
+
+function stepSimulation(processor, e) {
     if(processor === null) {
         return;
     }

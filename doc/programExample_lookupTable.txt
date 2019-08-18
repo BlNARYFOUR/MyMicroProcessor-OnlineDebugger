@@ -12,7 +12,7 @@ DEF one 1
 DEF two 2
 
 # variables
-DEF counter 0
+DEF counter 15
 DEF tableLength 0
 DEF testInput 1
 DEF notter 15
@@ -53,20 +53,25 @@ JUMP getTableLength
 MOVRW out1
 MOVWR tableLength
 SUB counter
-JC updateTableParam
-MOVRW zero
-MOVWR counter
+JZ resetCounter
+JNC resetCounter
 
 updateTableParam:
 # update table param
 MOVRW counter
 MOVWR in1
+MOVWO out8
 JUMP table
 movrw out1
 movwo out1
 movrw out2
 movwo out2
 JUMP main
+
+resetCounter:
+MOVRW zero
+MOVWR counter
+jump updateTableParam
 
 ### END MAIN ###
 
@@ -90,6 +95,14 @@ table:
   movrw in1
   add in1
   movwr tableCounter
+  JNC tableSetTAO1
+  MOVRW tAddressOut1M
+  ADD one
+  MOVWR tAddressOut1M
+  MOVWR tAddressOut2M
+  MOVRW tableCounter
+
+  tableSetTAO1:
 
   # Adjust tAddressOut1
   ADD tAddressOut1L
@@ -107,8 +120,8 @@ table:
 
   # Adjust tAddressOut2
   MOVRW tableCounter
+  ADD one
   ADD tAddressOut2L
-  add one
   movwr tAddressOut2L
   jnc tableSetOutputs
   movrw tAddressOut2M
@@ -125,13 +138,13 @@ table:
   def tAddressOut1H 0
   def tAddressOut1M 0
   def tAddressOut1L 0
-  movwr out1
+  movwr out2
 
   movrw null
   def tAddressOut2H 0
   def tAddressOut2M 0
   def tAddressOut2L 0
-  movwr out2
+  movwr out1
 
   return
 

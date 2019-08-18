@@ -122,8 +122,13 @@ function Processor(bootData) {
             this.IC.counter = (this.IC.counter + 1) % this.RAM.size();
         }
     };
+    this.clock = false;
 
     this.RAM.resetWithBaseData(bootData);
+
+    this.toggleClock = () => {
+        this.clock = !this.clock;
+    };
 
     this.executeCommand = () => {
         if(this.halted) {
