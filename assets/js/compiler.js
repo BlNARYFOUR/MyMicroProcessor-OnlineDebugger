@@ -261,9 +261,11 @@ function checkCodeValidity(code) {
         if(-1 < (index = Object.keys(compilerCommands).indexOf(command))) {
             if(Object.values(compilerCommands)[index] === compilerCommands.DEF) {
                 if(line[2] !== undefined) {
+                    console.log(line[2]);
                     let param1 = line[2];
                     if(/^[a-zA-Z][a-zA-Z0-9]*$/.test(param1) && param1.toUpperCase() !== "NULL") {
                         if(line[3] !== undefined) {
+                            console.log(line[3]);
                             let param2 = line[3];
                             if(/^[0-9]+$/.test(param2)) {
                                 if(parseInt(param2) <= 15) {
@@ -303,6 +305,8 @@ function checkCodeValidity(code) {
                             } else {
                                 return "On line " + lineNum + ": parameter '" + param2 + "' not of valid value.";
                             }
+                        } else {
+                            return "On line " + lineNum + ": '" + param1 + "' must get a value assigned.";
                         }
                     } else {
                         return "On line " + lineNum + ": '" + param1 + "' is not a valid parameter.";

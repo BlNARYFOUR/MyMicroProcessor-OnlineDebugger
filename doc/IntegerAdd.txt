@@ -1,0 +1,193 @@
+jump Main
+
+# CONSTANTS
+
+  def ZERO 0
+  def ONE 1
+
+
+
+Main:
+
+
+
+return
+
+  # Inputs
+
+  # Scope
+  int1MainScope:
+    def int1MainScopeH AH int1MainScopeValues
+    def int1MainScopeM AM int1MainScopeValues
+    def int1MainScopeL AL int1MainScopeValues
+    int1MainScopeValues:
+    def int1MainScope0 2
+    def int1MainScope1 13
+    def int1MainScope2 4
+    def int1MainScope3 0
+    def int1MainScope4 0
+    def int1MainScope5 0
+    def int1MainScope6 0
+    def int1MainScope7 0
+  int2MainScope:
+    def int2MainScopeH AH int2MainScopeValues
+    def int2MainScopeM AM int2MainScopeValues
+    def int2MainScopeL AL int2MainScopeValues
+    int2MainScopeValues:
+    def int2MainScope0 1
+    def int2MainScope1 14
+    def int2MainScope2 1
+    def int2MainScope3 0
+    def int2MainScope4 0
+    def int2MainScope5 0
+    def int2MainScope6 0
+    def int2MainScope7 0
+  int3MainScope:
+    def int3MainScopeH AH int3MainScopeValues
+    def int3MainScopeM AM int3MainScopeValues
+    def int3MainScopeL AL int3MainScopeValues
+    int3MainScopeValues:
+    def int3MainScope0 0
+    def int3MainScope1 0
+    def int3MainScope2 0
+    def int3MainScope3 0
+    def int3MainScope4 0
+    def int3MainScope5 0
+    def int3MainScope6 0
+    def int3MainScope7 0
+
+  # Outputs
+
+
+
+IntegerAdd:
+
+  movrw int1IntegerAddInH
+  movwr arrArrayGetInH
+  movrw int1IntegerAddInM
+  movwr arrArrayGetInM
+  movrw int1IntegerAddInM
+  movwr arrArrayGetInM
+  movrw counterIntegerAddScope
+  movwr indexArrayGetIn
+
+return
+
+  # Inputs
+  int1IntegerAddIn:
+    def int1IntegerAddInH 0
+    def int1IntegerAddInM 0
+    def int1IntegerAddInL 0
+  int2IntegerAddIn:
+    def int2IntegerAddInH 0
+    def int2IntegerAddInM 0
+    def int2IntegerAddInL 0
+  outIntegerAddIn:
+    def outIntegerAddInH 0
+    def outIntegerAddInM 0
+    def outIntegerAddInL 0
+
+  # Scope
+  bufIntegerAddScope:
+    def counterIntegerAddScope 0
+    def bufIntegerAddScope 0
+
+  # Outputs
+
+
+
+ArrayGet:
+
+  movrw arrArrayGetInL
+  add indexArrayGetIn
+  movwr arrArrayGetInL
+  jnc ArrayGetPart2
+
+  movrw arrArrayGetInM
+  add ONE
+  movwr arrArrayGetInM
+  jnc ArrayGetPart2
+
+  movrw arrArrayGetInH
+  add ONE
+  movwr arrArrayGetInH
+
+  ArrayGetPart2:
+
+  movrw arrArrayGetInL
+  movwr addrArrayGetInlineVarL
+  movrw arrArrayGetInM
+  movwr addrArrayGetInlineVarM
+  movrw arrArrayGetInH
+  movwr addrArrayGetInlineVarH
+
+  movrw null
+  def addrArrayGetInlineVarH 0
+  def addrArrayGetInlineVarM 0
+  def addrArrayGetInlineVarL 0
+  movwr valueArrayGetOut
+
+return
+
+  # Inputs
+  arrArrayGetIn:
+    def arrArrayGetInH 0
+    def arrArrayGetInM 0
+    def arrArrayGetInL 0
+  indexArrayGetIn:
+    def indexArrayGetIn 0
+
+  # Scope
+
+  # Outputs
+  valueArrayGetOut:
+    def valueArrayGetOut 0
+
+
+
+ArraySet:
+
+  movrw arrArraySetInL
+  add indexArraySetIn
+  movwr arrArraySetInL
+  jnc ArraySetPart2
+
+  movrw arrArraySetInM
+  add ONE
+  movwr arrArraySetInM
+  jnc ArraySetPart2
+
+  movrw arrArraySetInH
+  add ONE
+  movwr arrArraySetInH
+
+  ArraySetPart2:
+
+  movrw arrArraySetInL
+  movwr addrArraySetInlineVarL
+  movrw arrArraySetInM
+  movwr addrArraySetInlineVarM
+  movrw arrArraySetInH
+  movwr addrArraySetInlineVarH
+
+  movrw valueArraySetIn
+  movwr null
+  def addrArraySetInlineVarH 0
+  def addrArraySetInlineVarM 0
+  def addrArraySetInlineVarL 0
+
+return
+
+  # Inputs
+  arrArraySetIn:
+    def arrArraySetInH 0
+    def arrArraySetInM 0
+    def arrArraySetInL 0
+  indexArraySetIn:
+    def indexArraySetIn 0
+  valueArraySetIn:
+    def valueArraySetIn 0
+
+  # Scope
+
+  # Outputs

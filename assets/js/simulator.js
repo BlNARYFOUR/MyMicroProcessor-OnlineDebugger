@@ -103,13 +103,19 @@ function startSimulation() {
 
 function onToggleRunSimulation(processor, e) {
     if(interval === null) {
-        interval = setInterval(() => doHalfSimulation(processor), 250);
+        let delay = parseInt(document.querySelector("#speed").value);
+        delay = isNaN(delay) ? 500 : (delay < 1 ? 1 : (10000 < delay ? 10000 : delay));
+        interval = setInterval(() => doHalfSimulation(processor), delay);
         document.querySelector("#runSim").innerHTML = 'Stop';
     } else {
-        clearInterval(interval);
-        interval = null;
-        document.querySelector("#runSim").innerHTML = 'Run';
+        stopRunSimulation();
     }
+}
+
+function stopRunSimulation() {
+    clearInterval(interval);
+    interval = null;
+    document.querySelector("#runSim").innerHTML = 'Run';
 }
 
 function doHalfSimulation(processor) {
@@ -170,6 +176,8 @@ function updateOutputPins(processor) {
 function updateOnHaltState(processor) {
     if(processor.halted) {
         document.querySelector(".pin.halted").classList.add("active");
+        Debugger.stopHighlightingInstruction(prevCmd);
+        stopRunSimulation();
         disableSimButtons();
     } else {
         document.querySelector(".pin.halted").classList.remove("active");

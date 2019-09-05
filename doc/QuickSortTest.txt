@@ -1,0 +1,633 @@
+jump Main
+
+# CONSTANTS
+
+  def ZERO 0
+  def ONE 1
+
+
+
+Main:
+
+  movrw array1MainScopeL
+  movwr arrSortInL
+  movrw array1MainScopeM
+  movwr arrSortInM
+  movrw array1MainScopeH
+  movwr arrSortInH
+  movrw array1MainScopeLength
+  movwr arrSortInLength
+  jump Sort
+  movrw piPartitionOut
+  movwo out8
+  
+halt
+
+  # Inputs
+
+  # Scope
+  array1MainScope:
+    def array1MainScopeH AH array1MainScopeValues
+    def array1MainScopeM AM array1MainScopeValues
+    def array1MainScopeL AL array1MainScopeValues
+    def array1MainScopeLength 10
+    array1MainScopeValues:
+    def array1MainScope0 4
+    def array1MainScope1 1
+    def array1MainScope2 10
+    def array1MainScope3 3
+    def array1MainScope4 8
+    def array1MainScope5 6
+    def array1MainScope6 2
+    def array1MainScope7 7
+    def array1MainScope8 9
+    def array1MainScope9 5
+
+  # Outputs
+
+
+
+Sort:
+
+  movrw arrSortInL
+  movwr arrQuickSortInL
+  movrw arrSortInM
+  movwr arrQuickSortInM
+  movrw arrSortInH
+  movwr arrQuickSortInH
+  movrw ZERO
+  movwr lowIndexQuickSortIn
+  movrw arrSortInLength
+  sub ONE
+  movwr highIndexQuickSortIn
+  jump QuickSort
+
+return
+
+  # Inputs
+  arrSortIn:
+    def arrSortInH 0
+    def arrSortInM 0
+    def arrSortInL 0
+    def arrSortInLength 0
+  # Scope
+
+  # Outputs
+
+
+
+QuickSort:
+
+  # if(low < high) {
+  movrw lowIndexQuickSortIn
+  sub highIndexQuickSortIn
+  jc QuickSortPart2
+
+    # let pi = partition(arr, lowIndex, highIndex);
+    movrw arrQuickSortInL
+    movwr arrPartitionInL
+    movrw arrQuickSortInM
+    movwr arrPartitionInM
+    movrw arrQuickSortInH
+    movwr arrPartitionInH
+    movrw lowIndexQuickSortIn
+    movwr lowIndexPartitionIn
+    movrw highIndexQuickSortIn
+    movwr highIndexPartitionIn
+    jump Partition
+    movrw piPartitionOut
+    movwr piQuickSortScope
+
+    # quickSort(arr, lowIndex, pi - 1);
+
+    # TODO : Parameter stack
+    jump QuickSortStackPut
+
+    movrw piQuickSortScope
+    sub ONE
+    jNc QuickSortPart3
+    movwr highIndexQuickSortIn
+    jump QuickSort
+
+    jump QuickSortStackGet
+    jump QuickSortStackPut
+
+    QuickSortPart3:
+    movrw piQuickSortScope
+    add ONE
+    jc QuickSortPart4
+    movwr lowIndexQuickSortIn
+    jump QuickSort
+
+    QuickSortPart4:
+    jump QuickSortStackGet
+  # }
+  QuickSortPart2:
+
+return
+
+  # Inner Funcions
+  QuickSortStackPut:
+    movrw lowIndexQuickSortIn
+    movwr valueArraySetIn
+    movrw stackLowQuickSortScopeIndex
+    movwr indexArraySetIn
+    add ONE
+    movwr stackLowQuickSortScopeIndex
+    movrw stackLowQuickSortScopeL
+    movwr arrArraySetInL
+    movrw stackLowQuickSortScopeM
+    movwr arrArraySetInM
+    movrw stackLowQuickSortScopeH
+    movwr arrArraySetInH
+    jump ArraySet
+
+    movrw highIndexQuickSortIn
+    movwr valueArraySetIn
+    movrw stackHighQuickSortScopeIndex
+    movwr indexArraySetIn
+    add ONE
+    movwr stackHighQuickSortScopeIndex
+    movrw stackHighQuickSortScopeL
+    movwr arrArraySetInL
+    movrw stackHighQuickSortScopeM
+    movwr arrArraySetInM
+    movrw stackHighQuickSortScopeH
+    movwr arrArraySetInH
+    jump ArraySet
+
+    movrw piQuickSortScope
+    movwr valueArraySetIn
+    movrw stackPiQuickSortScopeIndex
+    movwr indexArraySetIn
+    add ONE
+    movwr stackPiQuickSortScopeIndex
+    movrw stackPiQuickSortScopeL
+    movwr arrArraySetInL
+    movrw stackPiQuickSortScopeM
+    movwr arrArraySetInM
+    movrw stackPiQuickSortScopeH
+    movwr arrArraySetInH
+    jump ArraySet
+  return
+
+  QuickSortStackGet:
+    movrw stackLowQuickSortScopeL
+    movwr arrArrayGetInL
+    movrw stackLowQuickSortScopeM
+    movwr arrArrayGetInM
+    movrw stackLowQuickSortScopeH
+    movwr arrArrayGetInH
+    movrw stackLowQuickSortScopeIndex
+    sub ONE
+    movwr stackLowQuickSortScopeIndex
+    movwr indexArrayGetIn
+    jump ArrayGet
+    movrw valueArrayGetOut
+    movwr lowIndexQuickSortIn
+
+    movrw stackHighQuickSortScopeL
+    movwr arrArrayGetInL
+    movrw stackHighQuickSortScopeM
+    movwr arrArrayGetInM
+    movrw stackHighQuickSortScopeH
+    movwr arrArrayGetInH
+    movrw stackHighQuickSortScopeIndex
+    sub ONE
+    movwr stackHighQuickSortScopeIndex
+    movwr indexArrayGetIn
+    jump ArrayGet
+    movrw valueArrayGetOut
+    movwr highIndexQuickSortIn
+
+    movrw stackPiQuickSortScopeL
+    movwr arrArrayGetInL
+    movrw stackPiQuickSortScopeM
+    movwr arrArrayGetInM
+    movrw stackPiQuickSortScopeH
+    movwr arrArrayGetInH
+    movrw stackPiQuickSortScopeIndex
+    sub ONE
+    movwr stackPiQuickSortScopeIndex
+    movwr indexArrayGetIn
+    jump ArrayGet
+    movrw valueArrayGetOut
+    movwr piQuickSortScope
+  return
+
+  # Inputs
+  arrQuickSortIn:
+    def arrQuickSortInH 0
+    def arrQuickSortInM 0
+    def arrQuickSortInL 0
+  lowIndexQuickSortIn:
+    def lowIndexQuickSortIn 0
+  highIndexQuickSortIn:
+    DEF highIndexQuickSortIn 0
+
+  # Scope
+  piQuickSortScope:
+    def piQuickSortScope 0
+  stackLowQuickSortScope:
+    def stackLowQuickSortScopeH AH stackLowQuickSortScopeValues
+    def stackLowQuickSortScopeM AM stackLowQuickSortScopeValues
+    def stackLowQuickSortScopeL AL stackLowQuickSortScopeValues
+    def stackLowQuickSortScopeIndex 0
+    stackLowQuickSortScopeValues:
+    def stackLowQuickSortScope0 0
+    def stackLowQuickSortScope1 0
+    def stackLowQuickSortScope2 0
+    def stackLowQuickSortScope3 0
+    def stackLowQuickSortScope4 0
+    def stackLowQuickSortScope5 0
+    def stackLowQuickSortScope6 0
+    def stackLowQuickSortScope7 0
+    def stackLowQuickSortScope8 0
+    def stackLowQuickSortScope9 0
+    def stackLowQuickSortScopeA 0
+    def stackLowQuickSortScopeB 0
+    def stackLowQuickSortScopeC 0
+    def stackLowQuickSortScopeD 0
+    def stackLowQuickSortScopeE 0
+    def stackLowQuickSortScopeF 0
+  stackHighQuickSortScope:
+    def stackHighQuickSortScopeH AH stackHighQuickSortScopeValues
+    def stackHighQuickSortScopeM AM stackHighQuickSortScopeValues
+    def stackHighQuickSortScopeL AL stackHighQuickSortScopeValues
+    def stackHighQuickSortScopeIndex 0
+    stackHighQuickSortScopeValues:
+    def stackHighQuickSortScope0 0
+    def stackHighQuickSortScope1 0
+    def stackHighQuickSortScope2 0
+    def stackHighQuickSortScope3 0
+    def stackHighQuickSortScope4 0
+    def stackHighQuickSortScope5 0
+    def stackHighQuickSortScope6 0
+    def stackHighQuickSortScope7 0
+    def stackHighQuickSortScope8 0
+    def stackHighQuickSortScope9 0
+    def stackHighQuickSortScopeA 0
+    def stackHighQuickSortScopeB 0
+    def stackHighQuickSortScopeC 0
+    def stackHighQuickSortScopeD 0
+    def stackHighQuickSortScopeE 0
+    def stackHighQuickSortScopeF 0
+  stackPiQuickSortScope:
+    def stackPiQuickSortScopeH AH stackPiQuickSortScopeValues
+    def stackPiQuickSortScopeM AM stackPiQuickSortScopeValues
+    def stackPiQuickSortScopeL AL stackPiQuickSortScopeValues
+    def stackPiQuickSortScopeIndex 0
+    stackPiQuickSortScopeValues:
+    def stackPiQuickSortScope0 0
+    def stackPiQuickSortScope1 0
+    def stackPiQuickSortScope2 0
+    def stackPiQuickSortScope3 0
+    def stackPiQuickSortScope4 0
+    def stackPiQuickSortScope5 0
+    def stackPiQuickSortScope6 0
+    def stackPiQuickSortScope7 0
+    def stackPiQuickSortScope8 0
+    def stackPiQuickSortScope9 0
+    def stackPiQuickSortScopeA 0
+    def stackPiQuickSortScopeB 0
+    def stackPiQuickSortScopeC 0
+    def stackPiQuickSortScopeD 0
+    def stackPiQuickSortScopeE 0
+    def stackPiQuickSortScopeF 0
+
+  # Outputs
+
+
+
+Partition:
+  # function partition(arr, lowIndex, highIndex)
+
+  # let pIndex = highIndex;
+  movrw highIndexPartitionIn
+  movwr pIndexPartitionScope
+
+  # let pValue = arr[pIndex];
+  movwr indexArrayGetIn
+  movrw arrPartitionInL
+  movwr arrArrayGetInL
+  movrw arrPartitionInM
+  movwr arrArrayGetInM
+  movrw arrPartitionInH
+  movwr arrArrayGetInH
+  jump ArrayGet
+  movrw valueArrayGetOut
+  movwr pValuePartitionScope
+
+  # highIndex--;
+  movrw highIndexPartitionIn
+  sub ONE
+  movwr highIndexPartitionIn
+  
+  # while(low < high) {
+  movrw lowIndexPartitionIn
+  sub highIndexPartitionIn
+  jc While1PartitionEnd
+  
+  While1Partition:
+    
+    # while(array[lowIndex] <= pValue && lowIndex < highIndex) {
+    movrw arrPartitionInL
+    movwr arrArrayGetInL
+    movrw arrPartitionInM
+    movwr arrArrayGetInM
+    movrw arrPartitionInH
+    movwr arrArrayGetInH
+    movrw lowIndexPartitionIn
+    movwr indexArrayGetIn
+    jump ArrayGet
+    movrw valueArrayGetOut
+    movwr lowValuePartitionScope
+
+    movrw pValuePartitionScope
+    sub lowValuePartitionScope
+    jnc While2PartitionEnd
+    
+    movrw lowIndexPartitionIn
+    sub highIndexPartitionIn
+    jc While2PartitionEnd
+
+    While2Partition:
+
+      # low++;
+      movrw lowIndexPartitionIn
+      add ONE
+      movwr lowIndexPartitionIn
+
+    movrw arrPartitionInL
+    movwr arrArrayGetInL
+    movrw arrPartitionInM
+    movwr arrArrayGetInM
+    movrw arrPartitionInH
+    movwr arrArrayGetInH
+    movrw lowIndexPartitionIn
+    movwr indexArrayGetIn
+    jump ArrayGet
+    movrw valueArrayGetOut
+    movwr lowValuePartitionScope
+
+    movrw pValuePartitionScope
+    sub lowValuePartitionScope
+    jnc While2PartitionEnd
+    
+    movrw lowIndexPartitionIn
+    sub highIndexPartitionIn
+    jnc While2Partition
+    # }
+    While2PartitionEnd:
+
+    # while(pValue <= array[high] && lowIndex < highIndex) {
+    movrw arrPartitionInL
+    movwr arrArrayGetInL
+    movrw arrPartitionInM
+    movwr arrArrayGetInM
+    movrw arrPartitionInH
+    movwr arrArrayGetInH
+    movrw highIndexPartitionIn
+    movwr indexArrayGetIn
+    jump ArrayGet
+    movrw valueArrayGetOut
+    movwr highValuePartitionScope
+
+    sub pValuePartitionScope
+    jnc While3PartitionEnd
+    
+    movrw lowIndexPartitionIn
+    sub highIndexPartitionIn
+    jc While3PartitionEnd
+
+    While3Partition:
+
+      # high--;
+      movrw highIndexPartitionIn
+      sub ONE
+      movwr highIndexPartitionIn
+
+    movrw arrPartitionInL
+    movwr arrArrayGetInL
+    movrw arrPartitionInM
+    movwr arrArrayGetInM
+    movrw arrPartitionInH
+    movwr arrArrayGetInH
+    movrw highIndexPartitionIn
+    movwr indexArrayGetIn
+    jump ArrayGet
+    movrw valueArrayGetOut
+    movwr highValuePartitionScope
+
+    sub pValuePartitionScope
+    jnc While3PartitionEnd
+    
+    movrw lowIndexPartitionIn
+    sub highIndexPartitionIn
+    jnc While3Partition
+    # }
+    While3PartitionEnd:
+
+    # array[low] = highValue;
+    movrw highValuePartitionScope
+    movwr valueArraySetIn
+    movrw lowIndexPartitionIn
+    movwr indexArraySetIn
+    movrw arrPartitionInL
+    movwr arrArraySetInL
+    movrw arrPartitionInM
+    movwr arrArraySetInM
+    movrw arrPartitionInH
+    movwr arrArraySetInH
+    jump ArraySet
+
+    # array[high] = lowValue
+    movrw lowValuePartitionScope
+    movwr valueArraySetIn
+    movrw highIndexPartitionIn
+    movwr indexArraySetIn
+    movrw arrPartitionInL
+    movwr arrArraySetInL
+    movrw arrPartitionInM
+    movwr arrArraySetInM
+    movrw arrPartitionInH
+    movwr arrArraySetInH
+    jump ArraySet
+
+  movrw lowIndexPartitionIn
+  sub highIndexPartitionIn
+  jnc While1Partition
+  # }
+  While1PartitionEnd:
+
+  # if(pValue < array[low]) {
+  movrw arrPartitionInL
+  movwr arrArrayGetInL
+  movrw arrPartitionInM
+  movwr arrArrayGetInM
+  movrw arrPartitionInH
+  movwr arrArrayGetInH
+  movrw lowIndexPartitionIn
+  movwr indexArrayGetIn
+  jump ArrayGet
+  movrw valueArrayGetOut
+  movwr lowValuePartitionScope
+  
+  movrw pValuePartitionScope
+  sub lowValuePartitionScope
+  jc PartitionPart2
+    
+    # array[pIndex] = lowValue;
+    movrw lowValuePartitionScope
+    movwr valueArraySetIn
+    movrw pIndexPartitionScope
+    movwr indexArraySetIn
+    movrw arrPartitionInL
+    movwr arrArraySetInL
+    movrw arrPartitionInM
+    movwr arrArraySetInM
+    movrw arrPartitionInH
+    movwr arrArraySetInH
+    jump ArraySet
+
+    # array[lowIndex] = pValue;
+    movrw pValuePartitionScope
+    movwr valueArraySetIn
+    movrw lowIndexPartitionIn
+    movwr indexArraySetIn
+    movrw arrPartitionInL
+    movwr arrArraySetInL
+    movrw arrPartitionInM
+    movwr arrArraySetInM
+    movrw arrPartitionInH
+    movwr arrArraySetInH
+    jump ArraySet
+
+  # }
+  PartitionPart2:
+
+  movrw lowIndexPartitionIn
+  movwr piPartitionOut
+
+return
+
+  # Inputs
+  arrPartitionIn:
+    def arrPartitionInH 0
+    def arrPartitionInM 0
+    def arrPartitionInL 0
+  lowIndexPartitionIn:
+    def lowIndexPartitionIn 0
+  highIndexPartitionIn:
+    def highIndexPartitionIn 0
+
+  # Scope
+  lowValuePartitionScope:
+    def lowValuePartitionScope 0
+  highValuePartitionScope:
+    def highValuePartitionScope 0
+  pPartitionScope:
+    def pIndexPartitionScope 0
+    def pValuePartitionScope 0
+
+  # Outputs
+  piPartitionOut:
+    def piPartitionOut 0
+
+
+
+ArrayGet:
+
+  movrw arrArrayGetInL
+  add indexArrayGetIn
+  movwr arrArrayGetInL
+  jnc ArrayGetPart2
+
+  movrw arrArrayGetInM
+  add ONE
+  movwr arrArrayGetInM
+  jnc ArrayGetPart2
+
+  movrw arrArrayGetInH
+  add ONE
+  movwr arrArrayGetInH
+
+  ArrayGetPart2:
+
+  movrw arrArrayGetInL
+  movwr addrArrayGetInlineVarL
+  movrw arrArrayGetInM
+  movwr addrArrayGetInlineVarM
+  movrw arrArrayGetInH
+  movwr addrArrayGetInlineVarH
+
+  movrw null
+  def addrArrayGetInlineVarH 0
+  def addrArrayGetInlineVarM 0
+  def addrArrayGetInlineVarL 0
+  movwr valueArrayGetOut
+
+return
+
+  # Inputs
+  arrArrayGetIn:
+    def arrArrayGetInH 0
+    def arrArrayGetInM 0
+    def arrArrayGetInL 0
+  indexArrayGetIn:
+    def indexArrayGetIn 0
+
+  # Scope
+
+  # Outputs
+  valueArrayGetOut:
+    def valueArrayGetOut 0
+
+
+
+ArraySet:
+
+  movrw arrArraySetInL
+  add indexArraySetIn
+  movwr arrArraySetInL
+  jnc ArraySetPart2
+
+  movrw arrArraySetInM
+  add ONE
+  movwr arrArraySetInM
+  jnc ArraySetPart2
+
+  movrw arrArraySetInH
+  add ONE
+  movwr arrArraySetInH
+
+  ArraySetPart2:
+
+  movrw arrArraySetInL
+  movwr addrArraySetInlineVarL
+  movrw arrArraySetInM
+  movwr addrArraySetInlineVarM
+  movrw arrArraySetInH
+  movwr addrArraySetInlineVarH
+
+  movrw valueArraySetIn
+  movwr null
+  def addrArraySetInlineVarH 0
+  def addrArraySetInlineVarM 0
+  def addrArraySetInlineVarL 0
+
+return
+
+  # Inputs
+  arrArraySetIn:
+    def arrArraySetInH 0
+    def arrArraySetInM 0
+    def arrArraySetInL 0
+  indexArraySetIn:
+    def indexArraySetIn 0
+  valueArraySetIn:
+    def valueArraySetIn 0
+
+  # Scope
+
+  # Outputs
